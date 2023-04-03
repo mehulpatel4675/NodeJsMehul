@@ -158,7 +158,6 @@
 // app.listen(5500);
 
 // ** tut 23 Ejs Template Engine 
-
 // const express = require('express');
 // const app = express();
 // const path = require('path');
@@ -187,11 +186,45 @@
 // });
 // app.listen(5500);
 
-//tut 24 Dynamic Page With Ejs
+// render return the object
+
+//! my test
 const express = require('express');
 const app = express();
-app.get('*',(req,res)=>{
-    res.send('inside the res');
+const path = require('path');
+const PORT = 5500;
+
+let filePathfortxt = path.join(__dirname,'files');
+let filePathforhtml = path.join(__dirname,'public');
+let fhtml = path.join(__dirname,'index.html');
+// console.log(__dirname/index.html);
+
+app.set('view engine','ejs');
+
+app.get('',(req,res)=>{
+    // res.send('<h1>Home Page Space</h1>');
+    res.sendFile(`./index.html`);
+});
+app.get('/profile',(req,res)=>{
+    let object ={
+        name:'mehul',
+        email:'mpatel@123.com'
+    }  
+    res.render('profile',{object})
+    // res.send('<h1>Home Page Space</h1>');
 });
 
-app.listen(5500);
+app.get('/about',(_,res)=>{
+    res.sendFile(`${filePathfortxt}/hello 0.txt`);
+});
+
+app.get('*',(req,res)=>{
+    res.sendFile(`${filePathforhtml}/404.html`)
+});
+
+// app.listen(5500);
+app.listen(PORT, function (err) {
+    if (err) console.log(err);
+    console.log("Server listening on PORT", PORT);
+});
+//**tut 24 Dynamic Page With Ejs
